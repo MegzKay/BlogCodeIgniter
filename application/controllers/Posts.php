@@ -78,7 +78,10 @@ class Posts extends CI_Controller{
 
     }
     public function delete($id){
-        if(!$this->session->userdata('logged_in')){
+        if($this->session->userdata('user_id') != $this->post_model->get_post_id($id)['user_id']){
+            redirect('users/login');
+        }
+		if(!$this->session->userdata('logged_in')){
             redirect('users/login');
         }
         $this->post_model->delete_post($id);
@@ -109,6 +112,7 @@ class Posts extends CI_Controller{
     }
     public function update()
     {
+		//$slug = $this->input->post('title');
         if(!$this->session->userdata('logged_in')){
             redirect('users/login');
         }

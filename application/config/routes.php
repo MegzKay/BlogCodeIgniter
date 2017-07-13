@@ -14,8 +14,9 @@ $route['default_controller'] = 'pages/view';
 
 
 $route['categories'] = 'categories/index';
+$route['categories/edit/(:num)'] = 'categories/edit/$1';
 $route['categories/posts/(:num)'] = 'categories/posts/$1';
-//$route['categories/posts/(:num)/(:num)'] = 'categories/posts/$1/$2';
+$route['categories/posts/(:num)/(:num)'] = 'categories/posts/$1/$2';
 
 
 

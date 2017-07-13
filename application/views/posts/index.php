@@ -1,6 +1,6 @@
 <h2><?= $title ?></h2>
 <?php foreach($posts as $post) : ?>
-    <h3><?php echo ucwords($post['title']); ?></h3>
+    <h3><a href="<?php echo site_url('/posts/'.$post['slug']); ?>"><?php echo ucwords($post['title']); ?></a></h3>
     <div class="row">
         <div class="col-md-3">
             <img class="post-thumb" src="<?php echo site_url(); ?>assets/images/posts/<?php echo $post['post_image']; ?>">

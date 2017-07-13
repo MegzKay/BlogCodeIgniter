@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>ciblog</title>
-        <link rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://bootswatch.com/cerulean/bootstrap.min.css" />
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style.css">
         <script src="http://cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
     </head>

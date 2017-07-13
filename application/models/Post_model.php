@@ -18,6 +18,11 @@ class Post_Model extends CI_Model{
         $query = $this->db->get_where('posts', array('slug'=>$slug));
         return $query->row_array();
     }
+	public function get_post_id($id)
+	{
+		$query = $this->db->get_where('posts', array('id'=>$id));
+        return $query->row_array();
+	}
     public function create_post($post_image)
     {
         $slug = url_title($this->input->post('title'));

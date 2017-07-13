@@ -19,12 +19,20 @@ class Category_model extends CI_Model{
     
     public function get_category($id){
         $query = $this->db->get_where('categories', array('id' => $id));
-        return $query->row();
+		return $query->row();
     }
     public function delete_category($id){
         $this->db->delete('categories',array('id', $id));
         return true;
     }
+	public function update_category()
+	{
+		$data = array(
+            'name' => $this->input->post('name'),
+        );
+        $this->db->where('id', $this->input->post('id'));
+        return $this->db->update('categories', $data);
+	}
     public function is_category_tied_to_post($id)
     {
         $result = $this->db->where('posts',array('category_id', $id));

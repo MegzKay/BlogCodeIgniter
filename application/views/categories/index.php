@@ -6,6 +6,9 @@
             <form class="cat-delete" action="categories/delete/<?php echo $category['id']; ?>" method="POST">
                 <input type="submit" class="btn-link text-danger" value="[X]">
             </form>
+			<form class="cat-delete" action="categories/edit/<?php echo $category['id']; ?>" method="POST">
+                <input type="submit" class="btn-link text-primary" value="Edit">
+            </form>
         <?php endif; ?>
     </li>
 <?php endforeach; ?>

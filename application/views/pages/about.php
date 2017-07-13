@@ -7,4 +7,5 @@
     <li>Pagination for posts linked to a specific category</li>
     <li>Changed comment functionality. Need to login to create a comment, which then it 
         takes the sessions user_id and username attributes instead of form fields</li>
+	<li>Changed so you need to be the right user to edit/delete posts and categories</li>
 </ul>

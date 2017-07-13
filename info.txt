@@ -1,0 +1,6 @@
+.htacess:  https://www.codeigniter.com/userguide3/general/urls.html
+
+to use base_url() need to go to config->autoload.php..... find $autoload['helper'] and set equal to array('url')
+
+If you make folders in views for each model need to edit config->routes.php
+to set up database go to config->database.php

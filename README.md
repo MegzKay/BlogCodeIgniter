@@ -1,5 +1,5 @@
 ## About
-Welcome to this blog created by Brad Traversy. It is made using the code ignitor framework
+Welcome to this blog created by [Brad Traversy](https://github.com/bradtraversy/ciblog). It is made using the code ignitor framework
 
 I have finished the tutorial and have began to further develop the blog
 

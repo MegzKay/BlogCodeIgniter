@@ -18,11 +18,11 @@ class Post_Model extends CI_Model{
         $query = $this->db->get_where('posts', array('slug'=>$slug));
         return $query->row_array();
     }
-	public function get_post_id($id)
-	{
-		$query = $this->db->get_where('posts', array('id'=>$id));
+    public function get_post_with_user_id($user_id)
+    {
+        $query = $this->db->get_where('posts', array('user_id'=>$user_id));
         return $query->row_array();
-	}
+    }
     public function create_post($post_image)
     {
         $slug = url_title($this->input->post('title'));
@@ -38,12 +38,23 @@ class Post_Model extends CI_Model{
         return $this->db->insert('posts', $data);
     }
     public function delete_post($id){
+        
+        $image_file_name = $this->db->select('post_image')->get_where('posts', array('id' => $id))->row()->post_image;
+        if($image_file_name != 'noimage.jpg')
+        {
+            $cwd = getcwd();
+            $image_file_path = $cwd."\\assets\\images\\posts\\";
+            chdir($image_file_path);
+            unlink($image_file_name);
+            chdir($cwd);
+        }
+        
         $this->db->where('id', $id);
         $this->db->delete('posts');
         return true;
     }
     
-    public function update_post(){
+    public function update_post($id){
         $slug = url_title($this->input->post('title'));
         $data = array(
             'title' => $this->input->post('title'),
@@ -51,7 +62,7 @@ class Post_Model extends CI_Model{
             'body' => $this->input->post('body'),
             'category_id' => $this->input->post('category_id')
         );
-        $this->db->where('id', $this->input->post('id'));
+        $this->db->where('id', $id);
         return $this->db->update('posts', $data);
     }
     public function get_categories(){

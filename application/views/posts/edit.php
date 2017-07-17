@@ -2,8 +2,7 @@
 
 <?php echo validation_errors(); ?>
 
-<?php echo form_open_multipart('posts/update'); ?>
-    <input type="hidden" name="id" value="<?php echo $post['id']?>" />
+<?php echo form_open_multipart('posts/update/'.$post['id']); ?>
   <div class="form-group">
     <label>Title</label>
     <input type="text" class="form-control" name="title" value="<?php echo $post['title'];?>" >

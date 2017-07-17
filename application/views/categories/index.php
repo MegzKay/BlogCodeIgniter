@@ -1,3 +1,13 @@
+<?php if($this->session->flashdata('category_created')): ?>
+    <?php echo '<p class="alert alert-success">'.$this->session->flashdata('category_created').'</p>'; ?>
+<?php endif; ?>
+<?php if($this->session->flashdata('category_not_deleted')): ?>
+    <?php echo '<p class="alert alert-danger">'.$this->session->flashdata('category_not_deleted').'</p>'; ?>
+<?php endif; ?>
+<?php if($this->session->flashdata('category_deleted')): ?>
+    <?php echo '<p class="alert alert-success">'.$this->session->flashdata('category_deleted').'</p>'; ?>
+<?php endif; ?>
+
 <h2><?= $title; ?></h2>
 <ul class="list-group">
 <?php foreach($categories as $category) : ?>

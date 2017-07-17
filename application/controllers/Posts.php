@@ -63,27 +63,31 @@ class Posts extends CI_Controller{
             
             if(!$this->upload->do_upload()){
                 $errors = array('error' => $this->upload->display_errors());
+                $this->session->set_flashdata('post_created', "Given default image: ".$errors['error']);
                 $post_image = 'noimage.jpg';
             }
             else{
                 $data = array('upload_data'=>  $this->upload->data());
                 $post_image = $_FILES['userfile']['name'];
+                $this->session->set_flashdata('post_created', 'Your post has been created');
             }
             $this->post_model->create_post($post_image);
-            
-            $this->session->set_flashdata('post_created', 'Your post has been created');
-            
+      
             redirect('posts');
         }
 
     }
     public function delete($id){
-        if($this->session->userdata('user_id') != $this->post_model->get_post_id($id)['user_id']){
+        $userid = $this->session->userdata('user_id');
+        if($userid != $this->post_model->get_post_with_user_id($userid )['user_id']){
+            
             redirect('users/login');
         }
-		if(!$this->session->userdata('logged_in')){
+
+	if(!$this->session->userdata('logged_in')){
             redirect('users/login');
         }
+
         $this->post_model->delete_post($id);
         $this->session->set_flashdata('post_deleted', 'Your post has been deleted');
         redirect('posts');
@@ -95,6 +99,7 @@ class Posts extends CI_Controller{
         $data['post'] = $this->post_model->get_posts($slug);
         
         if($this->session->userdata('user_id') != $this->post_model->get_posts($slug)['user_id']){
+            $this->session->set_flashdata('post_not_edited', 'Unable to edit post. This post does not belong to you');
             redirect('posts');
         }
         
@@ -110,13 +115,12 @@ class Posts extends CI_Controller{
         $this->load->view('posts/edit',$data);
         $this->load->view('templates/footer');
     }
-    public function update()
+    public function update($id)
     {
-		//$slug = $this->input->post('title');
         if(!$this->session->userdata('logged_in')){
             redirect('users/login');
         }
-        $this->post_model->update_post();
+        $this->post_model->update_post($id);
         $this->session->set_flashdata('post_updated', 'Your post has been updated');
         redirect('posts');
     }

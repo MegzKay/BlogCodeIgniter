@@ -51,43 +51,43 @@ class Categories extends CI_Controller{
         $this->load->view('templates/footer');
 
     }
-	public function edit($id)
-	{
-		if(!$this->session->userdata('logged_in')){
+    public function edit($id)
+    {
+        if(!$this->session->userdata('logged_in')){
             redirect('users/login');
         }
-		$category = $this->category_model->get_category($id);
-		
-		if($this->session->userdata('user_id') != $category->user_id)
-		{
-			redirect('categories');
-		}
-		
-		if(empty($category))
+        $category = $this->category_model->get_category($id);
+
+        if($this->session->userdata('user_id') != $category->user_id)
+        {
+            redirect('categories');
+        }
+
+        if(empty($category))
         {
             show_404();
         }
-		$data['title'] = "Edit Category";
-		$data['category'] = $category;
-		$this->load->view('templates/header');
+        $data['title'] = "Edit Category";
+        $data['category'] = $category;
+        $this->load->view('templates/header');
         $this->load->view('categories/edit', $data);
         $this->load->view('templates/footer');
-	}
-	public function update()
+    }
+    public function update()
     {
 		
         if(!$this->session->userdata('logged_in')){
             redirect('users/login');
         }
 		
-		$this->form_validation->set_rules('name', 'Name', 'required');
+	$this->form_validation->set_rules('name', 'Name', 'required');
 		
         if($this->form_validation->run() === FALSE){
             redirect('categories/edit/'.$this->input->post('id'));
         } else {
             $this->category_model->update_category();
-			$this->session->set_flashdata('category_updated', 'Your category has been updated');
-			redirect('categories');
+            $this->session->set_flashdata('category_updated', 'Your category has been updated');
+            redirect('categories');
         }
 		
         

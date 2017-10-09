@@ -15,7 +15,23 @@
 <?php endif;?>
 
 <h3>Comments</h3>
+<?php if(!empty($this->session->userdata('user_id'))): ?>        
+		 
+	<h3>Add Comment</h3>
+	<?php echo validation_errors(); ?>
+	<?php echo form_open('comments/create/'.$post['id'], array('id'=>'comment','method'=>'post')) ?> 
+		<div class="form-group">
+			<label>Comment</label>
+			<textarea name="body" id="body" class="form-control"></textarea>  
+		</div>
+		<input type="hidden" name="slug" value="<?php echo $post['slug']; ?>"/>
+		<button type="submit" class="btn btn-default">Submit</button>
+	</form>
 
+<?php else:?>
+	<br>   
+	<h4 class="alert alert-warning">Need to login to comment</h4>
+<?php endif;?>
 
 <?php if(!empty($comments)) : ?>
     <?php foreach($comments as $comment) : ?>
@@ -28,19 +44,33 @@
 	<p>No Comments To Display</p>
 <?php endif; ?>
         
-<?php if(!empty($this->session->userdata('user_id'))): ?>        
-     
-<h3>Add Comment</h3>
-<?php echo validation_errors(); ?>
-<?php echo form_open('comments/create/'.$post['id']) ?> 
-    <div class="form-group">
-        <label>Comment</label>
-        <textarea name="body" class="form-control"></textarea>  
-    </div>
-    <input type="hidden" name="slug" value="<?php echo $post['slug']; ?>"/>
-    <button type="submit" class="btn btn-default">Submit</button>
-</form>
-<?php else:?>
-<br>   
-<h4 class="alert alert-warning">Need to login to comment</h4>
-<?php endif;?>
+
+
+<script>
+$(document).ready(function(){
+	$("#comment").submit(function(event){
+		event.preventDefault(); 
+		var body = $("textarea#body").val();
+		console.log(body);
+		$.ajax({
+			type: "POST",
+			url: "<?php echo base_url(); ?>" + "comments/add_comment/" + "<?php echo $post['id']; ?>",
+			dataType: "json",
+			data: {"body":body}, 
+			cache: false,        
+			complete: function (xhr, status) {
+			  if (status === 'error' || !xhr.responseText) {
+				  alert(status);
+			  }
+			  else {
+				var html = "<div class='well'><h5>"+body+"</h5><p><em>By:<strong><?php echo $this->session->userdata('username'); ?></strong></em></p></div>"; 
+				  
+				$("#comment").after(html);
+				
+				$("#body").val("");
+			  }
+			}
+		});
+	});
+});
+</script>

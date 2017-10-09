@@ -18,5 +18,11 @@ class Comments extends CI_Controller{
             redirect('posts/'.$slug);
         }
     }
+	public function add_comment($post_id)
+	{
+		$addComment = $this->comment_model->create_comment($post_id);
+		if($addComment) echo 1;
+		else echo 0;
+	}
     
 }

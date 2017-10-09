@@ -4,6 +4,7 @@
         <link rel="stylesheet" href="https://bootswatch.com/cerulean/bootstrap.min.css" />
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style.css">
         <script src="http://cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </head>
     
 <body>    

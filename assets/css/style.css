@@ -46,3 +46,17 @@ a.pagination-link{
 .error{
     color:red;
 }
+.com-delete{
+	color: red;
+	margin-left: 5%;
+	cursor: pointer; 
+}
+.well{
+	border: 1px dotted black;
+}
+.reply{
+	margin-left:50px;
+	word-wrap: break-word;
+	margin-top: 10px;
+	
+}

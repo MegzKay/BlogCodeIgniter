@@ -17,9 +17,9 @@
 <h3>Comments</h3>
 <?php if(!empty($this->session->userdata('user_id'))): ?>        
 		 
-	<h3>Add Comment</h3>
+	<h4>Add Comment</h4>
 	<?php echo validation_errors(); ?>
-	<?php echo form_open('comments/create/'.$post['id'], array('id'=>'comment','method'=>'post')) ?> 
+	<?php echo form_open('', array('id'=>'comment','method'=>'post')) ?> 
 		<div class="form-group">
 			<label>Comment</label>
 			<textarea name="body" id="body" class="form-control"></textarea>  
@@ -37,11 +37,40 @@
     <?php foreach($comments as $comment) : ?>
         <div class="well">
             <h5><?php echo $comment['body']; ?></h5>
-            <p><em>By: <strong><?php echo $comment['username']; ?></strong></em></p>
+            <p><em>By: <strong><?php echo $comment['username']; ?></strong></em>
+				<?php if($comment['user_id'] == $this->session->userdata('user_id')): ?>
+					<span class="com-delete" id="<?php echo $comment['id']; ?>">remove</span>
+				<?php endif; ?>
+			</p>
+			<button id="reply" style="color:blue">Reply</button>
+
+			<?php 
+				$replies = $this->comment_model->fetchReplies($comment['id']);
+				if(!empty($replies))
+				{
+					foreach($replies as $reply)
+					{
+						$body = '<div  class="well reply">';
+						$body .= '<h5>'.$reply['body'].'</h5>';
+						$body .= '<p><em>By: <strong><'.$reply['username'].'</strong></em>';
+						
+						if($reply['user_id'] == $this->session->userdata('user_id'))
+						{
+							$body .= '<span class="com-delete" id=' .$reply['id']. '>remove</span>';
+						}
+						$body .= '</p>';
+						$body .= '</div>';
+						echo $body;
+						
+					}
+				}
+			?>
+			
+			
         </div>
     <?php endforeach; ?>
 <?php else : ?>
-	<p>No Comments To Display</p>
+	<p id="nocomments">No Comments To Display</p>
 <?php endif; ?>
         
 
@@ -51,26 +80,45 @@ $(document).ready(function(){
 	$("#comment").submit(function(event){
 		event.preventDefault(); 
 		var body = $("textarea#body").val();
-		console.log(body);
+		
 		$.ajax({
 			type: "POST",
 			url: "<?php echo base_url(); ?>" + "comments/add_comment/" + "<?php echo $post['id']; ?>",
 			dataType: "json",
 			data: {"body":body}, 
-			cache: false,        
 			complete: function (xhr, status) {
+				
 			  if (status === 'error' || !xhr.responseText) {
-				  alert(status);
+				  console.log(status);
 			  }
 			  else {
-				var html = "<div class='well'><h5>"+body+"</h5><p><em>By:<strong><?php echo $this->session->userdata('username'); ?></strong></em></p></div>"; 
+				var html = "<div class='well'><h5>"+body+"</h5><p><em>By:<strong><?php echo $this->session->userdata('username'); ?></strong></em><span class='com-delete' id='"+xhr.responseText+"' >remove</span></p></div>"; 
 				  
 				$("#comment").after(html);
 				
 				$("#body").val("");
+				
+				$("#nocomments").html("");
 			  }
 			}
 		});
+	});
+	
+	$(document).on("click",".com-delete",function(){
+		var el = $(this);
+		var com_id=el.attr('id');
+		
+		$.ajax({
+			type: "POST",
+			url: "<?php echo base_url(); ?>" + "comments/delete_comment/"+com_id,      
+			success: function () {
+				el.closest("div").remove();
+			}
+		});
+	});
+	
+	$(document).on("click","#reply",function(){
+		
 	});
 });
 </script>

@@ -1,7 +1,10 @@
 <?php
 
 class Comments extends CI_Controller{
-    public function create($post_id){
+	
+    
+	//OLD
+	/*public function create($post_id){
         $slug = $this->input->post('slug');
         
         $data['post'] = $this->post_model->get_posts($slug);
@@ -17,12 +20,27 @@ class Comments extends CI_Controller{
             $this->comment_model->create_comment($post_id);
             redirect('posts/'.$slug);
         }
-    }
+    }*/
 	public function add_comment($post_id)
 	{
-		$addComment = $this->comment_model->create_comment($post_id);
-		if($addComment) echo 1;
+		$newid = $this->comment_model->add_comment($post_id);
+		if($newid) echo $newid;
 		else echo 0;
+	}
+	public function delete_comment($id)
+	{
+		$this->comment_model->delete_comment($id);
+	}
+
+	 /*
+     * Function: reply_comment
+     * Purpose: This controller is responsible for linking a new comment to an older
+     * Params:  $parent_ID: The comment to reply to
+     * Return: none
+     */
+	public function reply_comment($post_id, $parent_ID)
+	{
+		//make a new comment, and add replied_ID with the id of the
 	}
     
 }
